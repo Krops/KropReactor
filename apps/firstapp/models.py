@@ -22,7 +22,7 @@ class Comment(models.Model):
     user = models.ForeignKey('user', on_delete=models.CASCADE,)
     post = models.ForeignKey('post', on_delete=models.CASCADE,)
     message = models.TextField()
-    rate = models.IntegerField()
+    rate = models.IntegerField(default=0)
 
 class User(models.Model):
     name = models.SlugField(unique=True)

@@ -1,4 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Blog bitches{% endblock %}
+{% block title %}Blog{% endblock %}
 {% block content %}
+<section>
+<p>Posts</p>
+{% for p in object_list %}
+<div><a href="{% url 'post' p.slug %}">{{p.slug}}</a> {{ p.theme }} {{p.message}}</div>
+{% endfor %}
+</section>
 {% endblock %}
