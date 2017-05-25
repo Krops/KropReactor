@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 class Post(models.Model):
     time_post = models.DateTimeField(auto_now_add=True)
