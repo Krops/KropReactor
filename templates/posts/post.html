@@ -1,15 +1,17 @@
 {% extends "base.html" %}
-{% block title %}Product: {{object.theme}}{% endblock %}
+{% block title %}Product: {{ object.theme }}{% endblock %}
 {% block content %}
-<section>
-<p><a href="{% url 'index' %}">Back to index</a></p>
-<p>Post: {{ object.theme }}</p>
-<div>Rating: {{ object.rate }}</div>
-<div>Description: {{ object.message }}</div>
-<div>Comments:</div>
-{% for p in comments %}
-<div>{{ p.user }}:
-{{p.message}}</div>
-{% endfor %}
-</section>
+    <section>
+        <p><a href="{% url 'index' %}">Back to index</a></p>
+        <p>Post: {{ object.theme }}</p>
+        <div>Rating: {{ object.rate }}</div>
+        <div>Description: {{ object.message }}</div>
+        <div>Comments:</div>
+        {% for p in comments %}
+            <div>{{ p.user }}:
+                {{ p.message }}</div>
+        {% endfor %}
+    <button id="authbut" type="button" class="btn btn-default" href="{% url 'addComment' slug=object.slug %}" data-toggle="modal" data-target="#modal" title="Add Comment" data-tooltip class="fa fa-pencil">Add Comment</button>
+
+    </section>
 {% endblock %}

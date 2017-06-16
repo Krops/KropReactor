@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from apps.firstapp.views import IndexView, PostView
+from apps.firstapp.views import IndexView, PostView, CommentFormView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^post/(?P<slug>[\w-]+)/$', PostView.as_view(), name='post'),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^post/(?P<slug>[\w-]+)/addComment/$', CommentFormView.as_view(), name='addComment')
 ]

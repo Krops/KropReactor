@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'apps.firstapp',
+    'bootstrap3',
 ]
 
 SITE_ID = 2

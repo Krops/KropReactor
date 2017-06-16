@@ -1,10 +1,11 @@
-from django.views.generic import TemplateView, ListView
+from django.views.generic import ListView
 from apps.firstapp.models import Post, Comment
 from django.views.generic.detail import DetailView
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import FormView
 from apps.firstapp.forms import CommentForm
 from apps.firstapp.utils import render_to_json_response
+from django.contrib.auth.models import User
 
 class IndexView(ListView):
     template_name = 'posts/list.html'
@@ -22,23 +23,33 @@ class PostView(DetailView):
         posts = get_object_or_404(Post, slug__iexact=self.kwargs['slug'])
         context['comments'] = Comment.objects.all().filter(post=posts)
         context['slug'] = self.kwargs['slug']
-        context['form'] = CommentForm
         return context
 
-class CommentView(FormView):
-    form_class = CommentForm
+class CommentFormView(FormView):
     template_name = 'posts/comment.html'
-    model = Comment
+    form_class = CommentForm
+
+    def get_form_kwargs(self):
+        kwargs = super(CommentFormView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
     def form_valid(self, form):
         context = form.cleaned_data
-        comment = form.save(commit=False)
-        comment.post = self.request.post
-        comment.user = self.request.user
-        comment.save()
+
+        del context['message']
+
+        if not self.request.user.is_authenticated():
+            context = {'errors': 'User is not authenticated'}
+            context['success'] = False
+            print(self.request)
+        else:
+            context['success'] = True
         return render_to_json_response(context, status=200)
 
     def form_invalid(self, form):
         context = {'errors': str(form.errors)}
+        context['success'] = False
         if self.request.is_ajax():
             return render_to_json_response(context, status=200)
+
