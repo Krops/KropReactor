@@ -22,5 +22,5 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^post/(?P<slug>[\w-]+)/$', PostView.as_view(), name='post'),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^post/(?P<slug>[\w-]+)/addComment/$', CommentFormView.as_view(), name='addComment')
+    url(r'^post/(?P<slug>[\w-]+)/addComment/$', PostView.as_view(), name='addComment')
 ]
